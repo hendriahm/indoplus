@@ -388,9 +388,9 @@ class PosTagDataLoader(DataLoader):
 #####
 class EmotionDetectionDataset(Dataset):
     # Static constant variable
-    LABEL2INDEX = {'anger': 0, 'fear': 1, 'joy': 2, 'love': 3, 'sad': 4, 'neutral':5}
-    INDEX2LABEL = {0: 'anger', 1: 'fear', 2: 'joy', 3: 'love', 4: 'sad', 5: 'neutral'}
-    NUM_LABELS = 6
+    LABEL2INDEX = {'sadness': 0, 'anger': 1, 'love': 2, 'fear': 3, 'happy': 4}
+    INDEX2LABEL = {0: 'sadness', 1: 'anger', 2: 'love', 3: 'fear', 4: 'happy'}
+    NUM_LABELS = 5
     
     def load_dataset(self, path):
         # Load dataset
