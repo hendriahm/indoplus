@@ -7,7 +7,7 @@ import re
 from torch.utils.data import Dataset, DataLoader
 from transformers import AutoTokenizer
 from transformers import BertModel
-from Transformers import BertTokenizerFast
+from transformers import BertTokenizerFast
 
 #####
 # Term Extraction Airy
