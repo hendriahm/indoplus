@@ -909,5 +909,5 @@ class CustomBERTModel(nn.Module):
         linear_output = self.linear(hidden.view(-1,256*2)) ### assuming that you are only using the output of the last LSTM cell to perform classification
 
         return linear_output
-    tokenizer = BertTokenizerFast.from_pretrained("bert-base-uncased")
-    model = CustomBERTModel()
+tokenizer = BertTokenizerFast.from_pretrained("bert-base-uncased")
+model = CustomBERTModel()
