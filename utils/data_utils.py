@@ -888,19 +888,19 @@ class NewsCategorizationDataLoader(DataLoader):
             seq_list.append(raw_seq)
             
         return subword_batch, mask_batch, labels_batch, seq_list
-    ##
-    #CustomBERT
-    ##
+    ####
+    #BERT and BiLSTM (CustomBERTModel)
+    ####
 
     class CustomBERTModel(nn.Module):
-    def __init__(self):
+        def __init__(self):
           super(CustomBERTModel, self).__init__()
           self.bert = BertModel.from_pretrained("bert-base-uncased")
           ### New layers:
           self.lstm = nn.LSTM(768, 256, batch_first=True,bidirectional=True)
           self.linear = nn.Linear(256*2, 5)
           
-    def forward(self, ids, mask):
+        def forward(self, ids, mask):
           sequence_output, pooled_output = self.bert(
                ids, 
                attention_mask=mask)
