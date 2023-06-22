@@ -892,22 +892,26 @@ class NewsCategorizationDataLoader(DataLoader):
 #BERT and BiLSTM (CustomBERTModel)
 ####
 
-class CustomBERTModel(nn.Module):
-    def __init__(self):
-            super(CustomBERTModel, self).__init__()
-            self.bert = BertModel.from_pretrained("indobenchmark/indobert-base-p1")
-            ### New layers:
-            self.lstm = nn.LSTM(768, 256, batch_first=True,bidirectional=True)
-            self.linear = nn.Linear(256*2, 5)
-          
-    def forward(self, ids, mask):
-        sequence_output, pooled_output = self.bert(ids, attention_mask=mask)
+bert_model = BertModel.from_pretrained('indobenchmark/indobert-base-p1')
 
-        # sequence_output has the following shape: (batch_size, sequence_length, 768)
-        lstm_output, (h,c) = self.lstm(sequence_output) ## extract the 1st token's embeddings
-        hidden = torch.cat((lstm_output[:,-1, :256],lstm_output[:,0, 256:]),dim=-1)
-        linear_output = self.linear(hidden.view(-1,256*2)) ### assuming that you are only using the output of the last LSTM cell to perform classification
+class BertBiLstmModel(nn.Module):
+    def __init__(self, num_classes):
+        super(BertBiLstmModel, self).__init__()
+        self.bert = bert_model
+        self.bilstm = nn.LSTM(input_size=768, hidden_size=128, num_layers=1, bidirectional=True, batch_first=True)
+        self.fc = nn.Linear(256, num_classes)
 
-        return linear_output
-##tokenizer = BertTokenizerFast.from_pretrained("indobenchmark/indobert-base-p1")
-##model = CustomBERTModel()
+    def forward(self, input_ids, attention_mask):
+        outputs = self.bert(input_ids, attention_mask)
+        pooled_output = outputs.pooler_output
+        lstm_output, _ = self.bilstm(pooled_output.unsqueeze(0))
+        lstm_output = lstm_output.squeeze(0)
+        logits = self.fc(lstm_output)
+        return logits
+
+model = BertBiLstmModel(num_classes=2)
+
+input_ids = torch.tensor([[1, 2, 3, 4, 5]])  # Example input sequence
+attention_mask = torch.tensor([[1, 1, 1, 1, 1]])  # Example attention mask
+logits = model(input_ids, attention_mask)
+print(logits)
