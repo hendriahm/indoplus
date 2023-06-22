@@ -895,7 +895,7 @@ class NewsCategorizationDataLoader(DataLoader):
 class CustomBERTModel(nn.Module):
     def __init__(self):
             super(CustomBERTModel, self).__init__()
-            self.bert = BertModel.from_pretrained("bert-base-uncased")
+            self.bert = BertModel.from_pretrained("indobenchmark/indobert-base-p1")
             ### New layers:
             self.lstm = nn.LSTM(768, 256, batch_first=True,bidirectional=True)
             self.linear = nn.Linear(256*2, 5)
@@ -909,5 +909,5 @@ class CustomBERTModel(nn.Module):
         linear_output = self.linear(hidden.view(-1,256*2)) ### assuming that you are only using the output of the last LSTM cell to perform classification
 
         return linear_output
-tokenizer = BertTokenizerFast.from_pretrained("bert-base-uncased")
-model = CustomBERTModel()
+##tokenizer = BertTokenizerFast.from_pretrained("indobenchmark/indobert-base-p1")
+##model = CustomBERTModel()
