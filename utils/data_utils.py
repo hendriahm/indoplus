@@ -895,7 +895,7 @@ class NewsCategorizationDataLoader(DataLoader):
 bert_model = BertModel.from_pretrained('indobenchmark/indobert-base-p1')
 
 class BertBiLstmModel(nn.Module):
-    def __init__(self, num_classes):
+    def __init__(self, num_classes=5):
         super(BertBiLstmModel, self).__init__()
         self.bert = bert_model
         self.bilstm = nn.LSTM(input_size=768, hidden_size=128, num_layers=1, bidirectional=True, batch_first=True)
