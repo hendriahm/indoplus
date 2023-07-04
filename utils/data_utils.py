@@ -909,7 +909,7 @@ class BertBiLstmModel(nn.Module):
         logits = self.fc(lstm_output)
         return logits
 
-model = BertBiLstmModel(num_classes=2)
+model = BertBiLstmModel(num_classes=5)
 
 input_ids = torch.tensor([[1, 2, 3, 4, 5]])  # Example input sequence
 attention_mask = torch.tensor([[1, 1, 1, 1, 1]])  # Example attention mask
