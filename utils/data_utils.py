@@ -901,17 +901,17 @@ class BertBiLstmModel(nn.Module):
         self.bilstm = nn.LSTM(input_size=768, hidden_size=128, num_layers=1, bidirectional=True, batch_first=True)
         self.fc = nn.Linear(256, num_classes)
 
-    def forward(self, input_ids, attention_mask):
-        outputs = self.bert(input_ids, attention_mask)
+    def forward(self, token_type_ids, attention_mask):
+        outputs = self.bert(token_type_ids, attention_mask)
         pooled_output = outputs.pooler_output
         lstm_output, _ = self.bilstm(pooled_output.unsqueeze(0))
         lstm_output = lstm_output.squeeze(0)
         logits = self.fc(lstm_output)
         return logits
 
-model = BertBiLstmModel(num_classes=5)
+#model = BertBiLstmModel(num_classes=5)
 
-input_ids = torch.tensor([[1, 2, 3, 4, 5]])  # Example input sequence
-attention_mask = torch.tensor([[1, 1, 1, 1, 1]])  # Example attention mask
-logits = model(input_ids, attention_mask)
-print(logits)
+##token_type_ids = torch.tensor([[1, 2, 3, 4, 5]])  # Example input sequence
+# attention_mask = torch.tensor([[1, 1, 1, 1, 1]])  # Example attention mask
+# logits = model(token_type_ids, attention_mask)
+# print(logits)
