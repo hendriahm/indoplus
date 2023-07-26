@@ -894,9 +894,9 @@ class NewsCategorizationDataLoader(DataLoader):
 
 bert_model = BertModel.from_pretrained('indobenchmark/indobert-base-p1')
 
-class Model(nn.Module):
+class CustomModel(nn.Module):
     def __init__(self, config):
-        super(Model, self).__init__()
+        super(CustomModel, self).__init__()
         self.bert = BertModel.from_pretrained(config.bert_path)
         for param in self.bert.parameters():
             param.requires_grad = True
