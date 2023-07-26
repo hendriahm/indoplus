@@ -894,6 +894,33 @@ class NewsCategorizationDataLoader(DataLoader):
 
 bert_model = BertModel.from_pretrained('indobenchmark/indobert-base-p1')
 
+class Config(object):
+  
+    def __init__(self, dataset):
+        self.model_name = 'bert'
+        self.train_path = dataset + '/content/indoplus/dataset/emot_emotion-twitter/train_preprocess.csv'
+        self.valid_path = dataset + '/content/indoplus/dataset/emot_emotion-twitter/valid_preprocess.csv'
+        self.test_path = dataset + '/content/indoplus/dataset/emot_emotion-twitter/test_preprocess_masked_label.csv'
+        #self.class_list = [x.strip() for x in open(
+            #dataset + '/data/class.txt').readlines()]
+        self.save_path = dataset + '/saved_dict/' + self.model_name + '.ckpt'
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+        self.require_improvement = 1000
+        self.num_classes = len(self.class_list)
+        self.num_epochs = 9
+        self.batch_size = 128
+        self.pad_size = 128
+        self.learning_rate = 5e-5
+        self.bert_path = './bert_pretrain'
+        self.tokenizer = BertTokenizer.from_pretrained(self.bert_path)
+        self.hidden_size = 768
+        self.filter_sizes = (2, 3, 4)
+        self.num_filters = 256
+        self.dropout = 0.1
+        self.rnn_hidden = 768
+        self.num_layers = 2
+
 ###
 class CustomModel(nn.Module):
     def __init__(self, config):
